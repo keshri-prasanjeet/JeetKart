@@ -1,0 +1,9 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: discovery-service
+
+
+#1.spring.config.import: Specifies that the configuration should be imported from a config server. The optional:configserver:http://localhost:8888 indicates that it should try to get its configuration from a Config Server running on http://localhost:8888. The optional keyword means that if the config server is not available, the application will still start with its local configuration.
+#2.spring.application.name: Sets the name of the application to discovery-service.
