@@ -14,20 +14,20 @@ services:
       - microservices-net
     restart: unless-stopped
 
-  pgadmin:
-    container_name: ms_pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pdadmin@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    ports:
-      - 5050:80
-    networks:
-      - microservices-net
-    restart: unless-stopped
+#  pgadmin:
+#    container_name: ms_pgadmin
+#    image: dpage/pgadmin4
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pdadmin@pgadmin.org}
+#      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+#      PGADMIN_CONFIG_SERVER_MODE: 'False'
+#    volumes:
+#      - pgadmin:/var/lib/pgadmin
+#    ports:
+#      - 5050:80
+#    networks:
+#      - microservices-net
+#    restart: unless-stopped
 
   mongodb:
     container_name: ms_mongo_db
@@ -40,18 +40,18 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=keshri
       - MONGO_INITDB_ROOT_PASSWORD=keshri
 
-  mongo-express:
-    container_name: ms_mongo_express
-    image: mongo-express
-    restart: always
-    ports:
-      - 8081:8081
-    depends_on:
-      - mongodb
-    environment:
-      - ME_CONFIG_MONGO_ADMINUSERNAME=keshri
-      - ME_CONFIG_MONGO_ADMINPASSWORD=keshri
-      - ME_CONFIG_MONGO_SERVER=mongodb
+#  mongo-express:
+#    container_name: ms_mongo_express
+#    image: mongo-express
+#    restart: always
+#    ports:
+#      - 8081:8081
+#    depends_on:
+#      - mongodb
+#    environment:
+#      - ME_CONFIG_MONGO_ADMINUSERNAME=keshri
+#      - ME_CONFIG_MONGO_ADMINPASSWORD=keshri
+#      - ME_CONFIG_MONGO_SERVER=mongodb
 
   mail-dev:
     container_name: ms_mail_dev
