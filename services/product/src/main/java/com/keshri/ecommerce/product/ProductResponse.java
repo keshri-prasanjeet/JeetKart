@@ -1,6 +1,5 @@
 package com.keshri.ecommerce.product;
 
-import com.keshri.ecommerce.category.Category;
 import lombok.Builder;
 
 import java.math.BigDecimal;

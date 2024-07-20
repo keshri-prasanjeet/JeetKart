@@ -41,8 +41,8 @@ public class ProductMapper {
                 .build();
     }
 
-    public ProductPurchaseResponse toProductPurchaseResponse(Product product, double quantity) {
-        return new ProductPurchaseResponse(
+    public PurchaseResponse toProductPurchaseResponse(Product product, double quantity) {
+        return new PurchaseResponse(
                 product.getId(),
                 quantity,
                 product.getName(),

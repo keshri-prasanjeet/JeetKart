@@ -22,7 +22,7 @@ public class ProductService {
         return product.getId();
     }
 
-    public List<ProductPurchaseResponse> purchaseProducts(List<ProductPurchaseRequest> productPurchaseRequestList) {
+    public List<PurchaseResponse> purchaseProducts(List<ProductPurchaseRequest> productPurchaseRequestList) {
         var productIds = productPurchaseRequestList.stream()
                 .map(ProductPurchaseRequest::productId)
                 .toList();
@@ -43,7 +43,7 @@ public class ProductService {
                 .sorted(Comparator.comparing(ProductPurchaseRequest::productId))
                 .toList();//sorted the purchase request
 
-        List<ProductPurchaseResponse> purchasedProducts = new ArrayList<>();
+        List<PurchaseResponse> purchasedProducts = new ArrayList<>();
 
         for(int i = 0; i < storedProducts.size(); i++) {
             var productInInventory = storedProducts.get(i);
