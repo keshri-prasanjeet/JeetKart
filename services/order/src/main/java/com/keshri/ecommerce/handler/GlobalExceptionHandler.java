@@ -1,8 +1,6 @@
 package com.keshri.ecommerce.handler;
 
 import com.keshri.ecommerce.exceptions.BusinessException;
-import com.keshri.ecommerce.exceptions.ProductNotFoundException;
-import com.keshri.ecommerce.exceptions.ProductPurchaseException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

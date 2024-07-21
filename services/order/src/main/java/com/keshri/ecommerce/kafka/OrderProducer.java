@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 // Mark this class as a Spring service component
 @Service
-// Lombok annotation to generate a constructor for final fields
+// Lombok's annotation to generate a constructor for final fields
 @RequiredArgsConstructor
 // Lombok annotation to enable logging
 @Slf4j
@@ -25,7 +25,7 @@ public class OrderProducer {
     public void sendOrderConfirmation(OrderConfirmation orderConfirmation) {
 
         // Log the order confirmation being sent
-        log.info("Sending order confirmation: {}", orderConfirmation);
+        log.info("Sending order confirmation: <{}>", orderConfirmation);
 
         // Create a Message object using MessageBuilder
         // This is a more flexible way to create a message compared to just sending the payload
