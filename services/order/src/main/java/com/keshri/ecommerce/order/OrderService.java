@@ -8,8 +8,12 @@ import com.keshri.ecommerce.orderline.OrderLineRequest;
 import com.keshri.ecommerce.orderline.OrderLineService;
 import com.keshri.ecommerce.product.ProductClient;
 import com.keshri.ecommerce.product.PurchaseRequest;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -57,5 +61,20 @@ public class OrderService {
         );
 
         return order.getId();
+    }
+
+    public List<OrderResponse> findAllOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .map(orderMapper::fromOrder)
+                .collect(Collectors.toList());
+    }
+
+    public OrderResponse findById(Integer orderId) {
+        return orderRepository.findById(orderId)
+                .map(orderMapper::fromOrder)
+                .orElseThrow(
+                        () -> new EntityNotFoundException(String.format("The requested order [Order no: %d] does not exist", orderId))
+                );
     }
 }
