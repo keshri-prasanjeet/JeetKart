@@ -6,10 +6,11 @@
       <node color="4" path="$PROJECT_DIR$/services/customer" />
       <node color="3" path="$PROJECT_DIR$/services/discovery" />
       <node color="8" path="$PROJECT_DIR$/services/order" />
+      <node color="9" path="$PROJECT_DIR$/services/payment" />
       <node color="1" path="$PROJECT_DIR$/services/product" />
     </files>
     <colors>
-      <color id="1" value="#4f060d" name="Color 1" enabled="true" />
+      <color id="1" value="#970610" name="Color 1" enabled="true" />
       <color id="2" value="#44220e" name="Color 2" enabled="true" />
       <color id="3" value="#3f371b" name="Color 3" enabled="true" />
       <color id="4" value="#162c16" name="Color 4" enabled="true" />
@@ -17,6 +18,7 @@
       <color id="6" value="#171a34" name="Color 6" enabled="true" />
       <color id="7" value="#311333" name="Color 7" enabled="true" />
       <color id="8" value="#1e1e1e" name="Color 8" enabled="true" />
+      <color id="9" value="#178410" name="Color 9" enabled="true" />
     </colors>
     <option name="marksForCollapsedHighlights" value="Dots" />
   </component>

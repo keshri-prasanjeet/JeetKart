@@ -6,6 +6,8 @@ import com.keshri.ecommerce.kafka.OrderConfirmation;
 import com.keshri.ecommerce.kafka.OrderProducer;
 import com.keshri.ecommerce.orderline.OrderLineRequest;
 import com.keshri.ecommerce.orderline.OrderLineService;
+import com.keshri.ecommerce.payment.PaymentClient;
+import com.keshri.ecommerce.payment.PaymentRequest;
 import com.keshri.ecommerce.product.ProductClient;
 import com.keshri.ecommerce.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +27,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
     public Integer createOrder(OrderRequest orderRequest) {
         var customer = this.customerClient.findCustomerById(orderRequest.customerId())
                 .orElseThrow(() ->
@@ -48,7 +51,15 @@ public class OrderService {
             );
         }
 
-        // todo payment confirmation
+        // payment confirmation
+        var paymentRequest = new PaymentRequest(
+                orderRequest.amount(),
+                orderRequest.paymentMethod(),
+                orderRequest.id(),
+                orderRequest.reference(),
+                customer
+        );
+        paymentClient.requestOrderPayment(paymentRequest);
 
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(

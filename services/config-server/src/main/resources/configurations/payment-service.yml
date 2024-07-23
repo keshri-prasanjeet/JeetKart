@@ -18,7 +18,11 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: paymentConfirmation:com.alibou.ecommerce.notification.PaymentNotificationRequest
+        spring.json.type.mapping: paymentConfirmation:com.keshri.ecommerce.notification.PaymentNotificationRequest
+#        This configuration allows you to create a mapping between a logical name and a specific Java class.
+#        when serializing objects of type PaymentNotificationRequest, Kafka will include type information in the message,
+#        using "paymentConfirmation" as an identifier. This is useful when you have multiple types that could be serialized,
+#        and you need to distinguish between them on the consumer side.
 application:
   config:
     product-url: http://localhost:8222/api/v1/products
