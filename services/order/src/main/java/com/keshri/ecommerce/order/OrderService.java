@@ -3,7 +3,7 @@ package com.keshri.ecommerce.order;
 import com.keshri.ecommerce.exceptions.BusinessException;
 import com.keshri.ecommerce.customer.CustomerClient;
 import com.keshri.ecommerce.kafka.OrderConfirmation;
-import com.keshri.ecommerce.kafka.OrderProducer;
+import com.keshri.ecommerce.kafka.OrderNotificationProducer;
 import com.keshri.ecommerce.orderline.OrderLineRequest;
 import com.keshri.ecommerce.orderline.OrderLineService;
 import com.keshri.ecommerce.payment.PaymentClient;
@@ -26,7 +26,7 @@ public class OrderService {
     private final ProductClient productClient;//used RestTemplate to communicate to product microservice
     private final OrderMapper orderMapper;
     private final OrderLineService orderLineService;
-    private final OrderProducer orderProducer;
+    private final OrderNotificationProducer orderNotificationProducer;
     private final PaymentClient paymentClient;
     public Integer createOrder(OrderRequest orderRequest) {
         var customer = this.customerClient.findCustomerById(orderRequest.customerId())
@@ -61,7 +61,7 @@ public class OrderService {
         );
         paymentClient.requestOrderPayment(paymentRequest);
 
-        orderProducer.sendOrderConfirmation(
+        orderNotificationProducer.sendOrderConfirmation(
                 new OrderConfirmation(
                         orderRequest.reference(),
                         orderRequest.amount(),

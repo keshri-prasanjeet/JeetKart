@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 // Lombok annotation to enable logging
 @Slf4j
-public class OrderProducer {
+public class OrderNotificationProducer {
 
     // Inject KafkaTemplate bean, which is used to send messages to Kafka
     // The generic types <String, OrderConfirmation> indicate that the key is a String

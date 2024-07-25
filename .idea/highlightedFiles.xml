@@ -5,6 +5,7 @@
       <node color="5" path="$PROJECT_DIR$/services/config-server" />
       <node color="4" path="$PROJECT_DIR$/services/customer" />
       <node color="3" path="$PROJECT_DIR$/services/discovery" />
+      <node color="2" path="$PROJECT_DIR$/services/notification" />
       <node color="8" path="$PROJECT_DIR$/services/order" />
       <node color="9" path="$PROJECT_DIR$/services/payment" />
       <node color="1" path="$PROJECT_DIR$/services/product" />

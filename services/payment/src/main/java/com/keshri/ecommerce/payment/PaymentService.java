@@ -1,6 +1,6 @@
 package com.keshri.ecommerce.payment;
 
-import com.keshri.ecommerce.notification.NotificationProducer;
+import com.keshri.ecommerce.notification.PaymentNotificationProducer;
 import com.keshri.ecommerce.notification.PaymentNotificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,11 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
-    private final NotificationProducer notificationProducer;
+    private final PaymentNotificationProducer paymentNotificationProducer;
 
     public Integer createPayment(PaymentRequest paymentRequest) {
         var payment = paymentRepository.save(paymentMapper.toPayment(paymentRequest));
-        notificationProducer.sendNotification(
+        paymentNotificationProducer.sendNotification(
                 new PaymentNotificationRequest(
                         paymentRequest.orderReference(),
                         paymentRequest.amount(),
