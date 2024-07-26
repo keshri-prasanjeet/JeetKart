@@ -13,7 +13,6 @@ public record CustomerRequest(
         @NotNull(message = "Customer Email is required")
         @Email(message = "Valid Email is required")
         String email,
-
         Address address
 ) {
 

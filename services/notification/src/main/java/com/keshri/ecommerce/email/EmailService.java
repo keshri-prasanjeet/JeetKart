@@ -26,7 +26,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @SuppressWarnings("LoggingSimilarMessage")
 // Indicates that this class is a Spring service
 @Service
-// Lombok annotation to generate a constructor with required dependencies
+// Lombok's annotation to generate a constructor with required dependencies
 @RequiredArgsConstructor
 // Lombok annotation to add logging capabilities
 @Slf4j

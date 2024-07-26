@@ -4,6 +4,8 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderController {
 
+    private static final Logger log = LoggerFactory.getLogger(OrderController.class);
     private final OrderService orderService;
 
     @PostMapping
     public ResponseEntity<Integer> createOrder(
             @RequestBody @Valid OrderRequest request
     ) {
+        log.info("the request is " + String.valueOf(request));
         return ResponseEntity.ok(this.orderService.createOrder(request));
     }
 

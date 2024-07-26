@@ -5,6 +5,7 @@
       <node color="5" path="$PROJECT_DIR$/services/config-server" />
       <node color="4" path="$PROJECT_DIR$/services/customer" />
       <node color="3" path="$PROJECT_DIR$/services/discovery" />
+      <node color="6" path="$PROJECT_DIR$/services/gateway" />
       <node color="2" path="$PROJECT_DIR$/services/notification" />
       <node color="8" path="$PROJECT_DIR$/services/order" />
       <node color="9" path="$PROJECT_DIR$/services/payment" />
@@ -15,11 +16,18 @@
       <color id="2" value="#44220e" name="Color 2" enabled="true" />
       <color id="3" value="#3f371b" name="Color 3" enabled="true" />
       <color id="4" value="#162c16" name="Color 4" enabled="true" />
-      <color id="5" value="#0f2f47" name="Color 5" enabled="true" />
+      <color id="5" value="#1383b5" name="Color 5" enabled="true" />
       <color id="6" value="#171a34" name="Color 6" enabled="true" />
       <color id="7" value="#311333" name="Color 7" enabled="true" />
       <color id="8" value="#9c8d32" name="Color 8" enabled="true" />
       <color id="9" value="#178410" name="Color 9" enabled="true" />
+      <color id="10" name="Color 10" />
+      <color id="11" name="Color 11" />
+      <color id="12" name="Color 12" />
+      <color id="13" name="Color 13" />
+      <color id="14" name="Color 14" />
+      <color id="15" name="Color 15" />
+      <color id="16" name="Color 16" />
     </colors>
     <option name="marksForCollapsedHighlights" value="Dots" />
   </component>
