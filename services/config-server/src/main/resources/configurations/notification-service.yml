@@ -2,6 +2,9 @@ server:
   port: 8040
 
 spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
   data:
     mongodb:
       username: keshri

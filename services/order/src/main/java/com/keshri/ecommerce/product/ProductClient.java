@@ -2,6 +2,7 @@ package com.keshri.ecommerce.product;
 
 import com.keshri.ecommerce.exceptions.BusinessException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 import static org.springframework.http.HttpMethod.POST;
-
+@Slf4j
 @Service // Marks this class as a Spring service
 @RequiredArgsConstructor // Lombok's annotation to generate a constructor for final fields
 public class ProductClient {
@@ -43,7 +44,7 @@ public class ProductClient {
                 requestEntity, // Request entity (body + headers)
                 responseType // Expected response type
         );
-
+        log.info("the response body is " + responseEntity.getBody().toString());
         // Check if the request was successful
         if (responseEntity.getStatusCode().isError()) {
             throw new BusinessException("An error occurred while processing the products purchase:: " + responseEntity.getStatusCode());

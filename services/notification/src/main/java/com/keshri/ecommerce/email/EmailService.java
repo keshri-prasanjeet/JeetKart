@@ -54,7 +54,7 @@ public class EmailService {
 
         // Get the template name for payment confirmation
         final String templateName = PAYMENT_CONFIRMATION.getTemplate();
-
+        log.info("The template name is {}", templateName);
         // Prepare variables for the email template
         Map<String, Object> variable = new HashMap<>();
         variable.put("customerName", customerName);

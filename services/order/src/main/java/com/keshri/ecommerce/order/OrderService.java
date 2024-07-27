@@ -39,6 +39,7 @@ public class OrderService {
         //makes a purchase by going to product ms and reduces the product inventory
 
         var order = this.orderRepository.save(orderMapper.toOrder(orderRequest));
+        //saving order details in order db
 
         for(PurchaseRequest purchaseRequest:orderRequest.products()){
             orderLineService.saveOrderLine(
@@ -50,6 +51,7 @@ public class OrderService {
                     )
             );
         }
+        //saving order line detail in customer line table
 
         // payment confirmation
         var paymentRequest = new PaymentRequest(
