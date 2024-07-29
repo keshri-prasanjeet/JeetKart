@@ -29,13 +29,15 @@ public class NotificationConsumer {
     @KafkaListener(topics="payment-topic")
     public void consumePaymentSuccessNotification(PaymentConfirmation paymentConfirmation) throws MessagingException {
         log.info(format("Consuming the message from payment-topic Topic:: %s", paymentConfirmation));
-        notificationRepository.save(
+        Notification savedNotification = notificationRepository.save(
                 Notification.builder()
                         .type(PAYMENT_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
                         .paymentConfirmation(paymentConfirmation)
                         .build()
         );
+
+        log.info("the saved notification is{}", savedNotification);
 
         var customerName = paymentConfirmation.customerFirstName() + " " + paymentConfirmation.customerLastName();
         emailService.sendPaymentSuccessEmail(

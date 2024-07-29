@@ -9,11 +9,6 @@ eureka:
 server:
   port: 8761
 
-spring:
-  cloud:
-    config:
-      override.system-properties: false
-
 
 #1.eureka.instance.hostname: Sets the hostname of the Eureka instance to localhost.
 #2.eureka.client.register-with-eureka: Setting this to false indicates that this Eureka server will not register itself with another Eureka server.
