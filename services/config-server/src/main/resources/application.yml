@@ -15,4 +15,4 @@ server:
 #1.spring.profiles.active: Specifies the active profile to be native. This is used to define different settings for different environments (e.g., development, production).
 #2.spring.application.name: Sets the name of the application to config-server.
 #3.spring.cloud.config.server.native.search-locations: Defines the location where the configuration files will be searched. Here, it is set to classpath:/configuration, meaning it will look for configuration files in the configuration folder within the classpath.
-#4.server.port: Sets the port on which the application will run. In this case, it?s set to 8888.
+#4.server.port: Sets the port on which the application will run. In this case, it's set to 8888.
