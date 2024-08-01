@@ -1,8 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://products-database.c5c8eyuoup24.us-east-1.rds.amazonaws.com:5432/product
+#    url: jdbc:postgresql://products-database.c5c8eyuoup24.us-east-1.rds.amazonaws.com:5432/product
+    url: jdbc:postgresql://192.168.1.8:5432/product
     username: keshri
-    password: keshrixlabs
+#    password: keshrixlabs
+    password: keshri
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
