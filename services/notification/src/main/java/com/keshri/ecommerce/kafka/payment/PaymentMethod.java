@@ -5,5 +5,6 @@ public enum PaymentMethod {
     CREDIT_CARD,
     BITCOIN,
     ETHEREUM,
-    UPI
+    UPI,
+    CASH
 }
