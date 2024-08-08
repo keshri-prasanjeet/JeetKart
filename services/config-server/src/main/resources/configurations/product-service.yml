@@ -16,7 +16,10 @@ spring:
     enabled: true
     baseline-description: "init"
     baseline-version: 0
+    locations: classpath:db/migration
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
+    out-of-order: true
+    debug: true
 server:
   port: 8050
