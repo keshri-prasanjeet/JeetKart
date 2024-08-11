@@ -5,5 +5,6 @@ public enum PaymentMethod {
     PAYPAL,
     CREDIT_CARD,
     BITCOIN,
-    ETHEREUM
+    ETHEREUM,
+    UPI
 }
