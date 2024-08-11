@@ -14,9 +14,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 import static org.springframework.http.HttpMethod.POST;
+
 @Slf4j
-@Service // Marks this class as a Spring service
-@RequiredArgsConstructor // Lombok's annotation to generate a constructor for final fields
+@Service
+@RequiredArgsConstructor
 public class ProductClient {
     // Injects the product service URL from application properties
     @Value("${application.config.product-url}")
@@ -25,29 +26,32 @@ public class ProductClient {
     // RestTemplate is injected via constructor (due to @RequiredArgsConstructor)
     private final RestTemplate restTemplate;
 
-    public List<PurchaseResponse> purchaseProducts(List<PurchaseRequest> purchaseRequestsBody) {
-        // Set up HTTP headers
+    public List<PurchaseResponse> purchaseProducts(HttpHeaders incomingHeaders, List<PurchaseRequest> purchaseRequestsBody) {
+        // Create new headers, copying the Authorization header if it exists
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
+        String authHeader = incomingHeaders.getFirst(HttpHeaders.AUTHORIZATION);
+        if (authHeader != null && !authHeader.isEmpty()) {
+            headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        }
 
         // Create an HTTP entity with the request body and headers
         HttpEntity<List<PurchaseRequest>> requestEntity = new HttpEntity<>(purchaseRequestsBody, headers);
 
-        // Define the response type (a List of PurchaseResponse objects)
-        ParameterizedTypeReference<List<PurchaseResponse>> responseType =
-                new ParameterizedTypeReference<>() {};
+        ParameterizedTypeReference<List<PurchaseResponse>> responseType = new ParameterizedTypeReference<>() {};
 
         // Make the HTTP POST request to the product service
         ResponseEntity<List<PurchaseResponse>> responseEntity = restTemplate.exchange(
-                productUrl + "/purchase", // URL
-                POST, // HTTP method
-                requestEntity, // Request entity (body + headers)
-                responseType // Expected response type
+                productUrl + "/purchase",
+                POST,
+                requestEntity,
+                responseType
         );
-        log.info("the response body is " + responseEntity.getBody().toString());
-        // Check if the request was successful
+
+        log.info("The response body is " + responseEntity.getBody());
+
         if (responseEntity.getStatusCode().isError()) {
-            throw new BusinessException("An error occurred while processing the products purchase:: " + responseEntity.getStatusCode());
+            throw new BusinessException("An error occurred while processing the products purchase: " + responseEntity.getStatusCode());
         }
 
         // Return the response body
