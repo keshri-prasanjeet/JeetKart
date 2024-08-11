@@ -14,6 +14,9 @@ spring:
       override-system-properties: false
 
 management:
+  zipkin:
+    tracing:
+      endpoint: http://192.168.1.8:9411/api/v2/spans
   tracing:
     sampling:
       probability: 1.0

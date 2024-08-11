@@ -11,7 +11,9 @@ import com.keshri.ecommerce.payment.PaymentRequest;
 import com.keshri.ecommerce.product.ProductClient;
 import com.keshri.ecommerce.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,14 +30,13 @@ public class OrderService {
     private final OrderLineService orderLineService;
     private final OrderNotificationProducer orderNotificationProducer;
     private final PaymentClient paymentClient;
-    public Integer createOrder(OrderRequest orderRequest) {
-        var customer = this.customerClient.findCustomerById(orderRequest.customerId())
-                .orElseThrow(() ->
-                        new BusinessException(
-                                "Cannot create order, No customer exists with provided customer id %d"+ orderRequest.customerId()
-                        ));
+    public Integer createOrder(OrderRequest orderRequest, HttpHeaders headers) {
+        var customer = this.customerClient.findCustomerById(headers, orderRequest.customerId())
+                .orElseThrow(() -> new BusinessException(
+                        "Cannot create order, No customer exists with provided customer id " + orderRequest.customerId()
+                ));
 
-        var purchasedProducts = this.productClient.purchaseProducts(orderRequest.products());
+        var purchasedProducts = this.productClient.purchaseProducts(headers, orderRequest.products());
         //makes a purchase by going to product ms and reduces the product inventory
 
         var order = this.orderRepository.save(orderMapper.toOrder(orderRequest));
@@ -74,6 +75,16 @@ public class OrderService {
         );
 
         return order.getId();
+    }
+
+    private HttpHeaders extractHeaders(HttpServletRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        java.util.Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            headers.add(headerName, request.getHeader(headerName));
+        }
+        return headers;
     }
 
     public List<OrderResponse> findAllOrders() {

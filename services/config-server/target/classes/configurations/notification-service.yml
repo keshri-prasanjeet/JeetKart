@@ -9,13 +9,13 @@ spring:
     mongodb:
       username: keshri
       password: keshri
-      host: localhost
+      host: 192.168.1.8
       port: 27017
       database: notification
       authentication-database: admin
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 192.168.1.8:9092
       group-id: paymentGroup,orderGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -25,7 +25,7 @@ spring:
         spring.json.trusted.packages: '*'
         spring.json.type.mapping: orderConfirmation:com.keshri.ecommerce.kafka.order.OrderConfirmation,paymentConfirmation:com.keshri.ecommerce.kafka.payment.PaymentConfirmation
   mail:
-    host: localhost
+    host: 192.168.1.8
     port: 1025
     username: keshri
     password: keshri
