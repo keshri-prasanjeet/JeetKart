@@ -13,14 +13,17 @@ import com.keshri.ecommerce.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -31,18 +34,30 @@ public class OrderService {
     private final OrderNotificationProducer orderNotificationProducer;
     private final PaymentClient paymentClient;
     public Integer createOrder(OrderRequest orderRequest, HttpHeaders headers) {
-        var customer = this.customerClient.findCustomerById(headers, orderRequest.customerId())
+        var customer = this.customerClient.findCustomerById(headers, orderRequest.getCustomerId())
                 .orElseThrow(() -> new BusinessException(
-                        "Cannot create order, No customer exists with provided customer id " + orderRequest.customerId()
+                        "Cannot create order, No customer exists with provided customer id " + orderRequest.getCustomerId()
                 ));
 
-        var purchasedProducts = this.productClient.purchaseProducts(headers, orderRequest.products());
+        var purchasedProducts = this.productClient.purchaseProducts(headers, orderRequest.getProducts());
         //makes a purchase by going to product ms and reduces the product inventory
 
-        var order = this.orderRepository.save(orderMapper.toOrder(orderRequest));
+        String reference = UUID.randomUUID().toString();
+        OrderRequest orderRequestWithReference = OrderRequest.builder()
+                .reference(reference)
+                .amount(orderRequest.getAmount())
+                .paymentMethod(orderRequest.getPaymentMethod())
+                .customerId(orderRequest.getCustomerId())
+                .products(orderRequest.getProducts())
+                .build();
+
+        log.info("************************");
+        log.info(orderRequestWithReference.toString());
+        var order = this.orderRepository.save(orderMapper.toOrder(orderRequestWithReference));
         //saving order details in order db
 
-        for(PurchaseRequest purchaseRequest:orderRequest.products()){
+
+        for(PurchaseRequest purchaseRequest:orderRequestWithReference.getProducts()){
             orderLineService.saveOrderLine(
                     new OrderLineRequest(
                             null,
@@ -55,20 +70,21 @@ public class OrderService {
         //saving order line detail in customer line table
 
         // payment confirmation
+        log.info("this is the order reference{}", orderRequestWithReference.getReference());
         var paymentRequest = new PaymentRequest(
-                orderRequest.amount(),
-                orderRequest.paymentMethod(),
-                orderRequest.id(),
-                orderRequest.reference(),
+                orderRequestWithReference.getAmount(),
+                orderRequestWithReference.getPaymentMethod(),
+                orderRequestWithReference.getId(),
+                orderRequestWithReference.getReference(),
                 customer
         );
         paymentClient.requestOrderPayment(paymentRequest);
 
         orderNotificationProducer.sendOrderConfirmation(
                 new OrderConfirmation(
-                        orderRequest.reference(),
-                        orderRequest.amount(),
-                        orderRequest.paymentMethod(),
+                        orderRequestWithReference.getReference(),
+                        orderRequestWithReference.getAmount(),
+                        orderRequestWithReference.getPaymentMethod(),
                         customer,
                         purchasedProducts
                 )
