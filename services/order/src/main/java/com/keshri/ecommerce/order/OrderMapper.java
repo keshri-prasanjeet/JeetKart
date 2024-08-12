@@ -11,10 +11,10 @@ public class OrderMapper {
             return null;
         }
         return Order.builder()
-                .id(request.id())
-                .reference(request.reference())
-                .paymentMethod(request.paymentMethod())
-                .customerId(request.customerId())
+                .id(request.getId())
+                .reference(request.getReference())
+                .paymentMethod(request.getPaymentMethod())
+                .customerId(request.getCustomerId())
                 .build();
     }
 
