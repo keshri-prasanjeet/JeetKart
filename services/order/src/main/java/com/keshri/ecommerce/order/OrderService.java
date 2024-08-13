@@ -45,7 +45,7 @@ public class OrderService {
         String reference = UUID.randomUUID().toString();
         OrderRequest orderRequestWithReference = OrderRequest.builder()
                 .reference(reference)
-                .amount(orderRequest.getAmount())
+                .totalAmount(orderRequest.getTotalAmount())
                 .paymentMethod(orderRequest.getPaymentMethod())
                 .customerId(orderRequest.getCustomerId())
                 .products(orderRequest.getProducts())
@@ -53,8 +53,14 @@ public class OrderService {
 
         log.info("************************");
         log.info(orderRequestWithReference.toString());
-        var order = this.orderRepository.save(orderMapper.toOrder(orderRequestWithReference));
+        log.info("^^^^^^^^^^^^^^^^^--> === !=");
+
+        Order orderToSave = orderMapper.toOrder(orderRequestWithReference);
+        orderToSave.setTotalAmount(orderToSave.getTotalAmount());
+        var order = this.orderRepository.save(orderToSave);
         //saving order details in order db
+
+        log.info(order.toString());
 
 
         for(PurchaseRequest purchaseRequest:orderRequestWithReference.getProducts()){
@@ -70,9 +76,8 @@ public class OrderService {
         //saving order line detail in customer line table
 
         // payment confirmation
-        log.info("this is the order reference{}", orderRequestWithReference.getReference());
         var paymentRequest = new PaymentRequest(
-                orderRequestWithReference.getAmount(),
+                orderRequestWithReference.getTotalAmount(),
                 orderRequestWithReference.getPaymentMethod(),
                 orderRequestWithReference.getId(),
                 orderRequestWithReference.getReference(),
@@ -83,7 +88,7 @@ public class OrderService {
         orderNotificationProducer.sendOrderConfirmation(
                 new OrderConfirmation(
                         orderRequestWithReference.getReference(),
-                        orderRequestWithReference.getAmount(),
+                        orderRequestWithReference.getTotalAmount(),
                         orderRequestWithReference.getPaymentMethod(),
                         customer,
                         purchasedProducts
