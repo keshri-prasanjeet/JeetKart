@@ -33,6 +33,7 @@ public class OrderService {
     private final OrderLineService orderLineService;
     private final OrderNotificationProducer orderNotificationProducer;
     private final PaymentClient paymentClient;
+
     public Integer createOrder(OrderRequest orderRequest, HttpHeaders headers) {
         var customer = this.customerClient.findCustomerById(headers, orderRequest.getCustomerId())
                 .orElseThrow(() -> new BusinessException(
@@ -51,13 +52,7 @@ public class OrderService {
                 .products(orderRequest.getProducts())
                 .build();
 
-        log.info("************************");
-        log.info(orderRequestWithReference.toString());
-        log.info("^^^^^^^^^^^^^^^^^--> === !=");
-
-        Order orderToSave = orderMapper.toOrder(orderRequestWithReference);
-        orderToSave.setTotalAmount(orderToSave.getTotalAmount());
-        var order = this.orderRepository.save(orderToSave);
+        var order = this.orderRepository.save(orderMapper.toOrder(orderRequestWithReference));
         //saving order details in order db
 
         log.info(order.toString());
