@@ -118,15 +118,15 @@ public class OrderService {
         }
     }
 
-    private HttpHeaders extractHeaders(HttpServletRequest request) {
-        HttpHeaders headers = new HttpHeaders();
-        java.util.Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            headers.add(headerName, request.getHeader(headerName));
-        }
-        return headers;
-    }
+//    private HttpHeaders extractHeaders(HttpServletRequest request) {
+//        HttpHeaders headers = new HttpHeaders();
+//        java.util.Enumeration<String> headerNames = request.getHeaderNames();
+//        while (headerNames.hasMoreElements()) {
+//            String headerName = headerNames.nextElement();
+//            headers.add(headerName, request.getHeader(headerName));
+//        }
+//        return headers;
+//    }
 
     public List<OrderResponse> findAllOrders() {
         return orderRepository.findAll()
