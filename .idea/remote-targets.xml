@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <option name="projectDefaultTargetUuid" value="4c9af144-f81a-485e-a39a-57090deda830" />
+    <targets>
+      <target name="victorkash@192.168.1.8:22" type="ssh/sftp" uuid="4c9af144-f81a-485e-a39a-57090deda830">
+        <config>
+          <option name="projectRootOnTarget" value="/home/victorkash/e-commerce-app" />
+          <option name="serverName" value="victorkash@192.168.1.8:22 password" />
+          <option name="useRsync" value="true" />
+        </config>
+        <ContributedStateBase type="MavenRuntime">
+          <config />
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>

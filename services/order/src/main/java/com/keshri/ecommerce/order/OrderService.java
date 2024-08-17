@@ -2,6 +2,7 @@ package com.keshri.ecommerce.order;
 
 import com.keshri.ecommerce.exceptions.BusinessException;
 import com.keshri.ecommerce.customer.CustomerClient;
+import com.keshri.ecommerce.exceptions.CustomerNotFoundException;
 import com.keshri.ecommerce.kafka.OrderConfirmation;
 import com.keshri.ecommerce.kafka.OrderNotificationProducer;
 import com.keshri.ecommerce.orderline.OrderLineRequest;
@@ -10,6 +11,7 @@ import com.keshri.ecommerce.payment.PaymentClient;
 import com.keshri.ecommerce.payment.PaymentRequest;
 import com.keshri.ecommerce.product.ProductClient;
 import com.keshri.ecommerce.product.PurchaseRequest;
+import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -101,6 +103,17 @@ public class OrderService {
             }
             else{
                 throw new BusinessException("An error occurred while creating order " + e.getMessage());
+            }
+        }
+        catch (FeignException e){
+            if(e.status() == 404){
+                throw new CustomerNotFoundException("Customer not found");
+            }
+            else if(e.status() ==  400){
+                throw new BusinessException(e.contentUTF8());
+            }
+            else{
+                throw new BusinessException("An error occurred while retrieving customer information "+ e.getMessage());
             }
         }
     }

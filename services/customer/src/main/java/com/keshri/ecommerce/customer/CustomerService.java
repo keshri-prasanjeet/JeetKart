@@ -57,12 +57,6 @@ public class CustomerService {
     }
 
     public CustomerResponse findByCustomerId(String customerId) {
-//        Optional<Customer> customer = customerRepository.findById(customerId);
-//        if(customer.isPresent()){
-//            return customerMapper.toCustomerResponse(customer.get());
-//        }
-//        throw new CustomerNotFoundException(customerId);
-
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(
                         format("No customer found with the customer ID: %s",customerId)));
