@@ -1,0 +1,10 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://192.168.1.8:9090/realms/micro-services"
+  application:
+    name: gateway-service
+  config:
+    import: optional:configserver:http://localhost:8888

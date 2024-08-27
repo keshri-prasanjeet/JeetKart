@@ -13,7 +13,6 @@ import com.keshri.ecommerce.product.ProductClient;
 import com.keshri.ecommerce.product.PurchaseRequest;
 import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

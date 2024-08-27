@@ -55,7 +55,7 @@ public class CustomerService {
     public Boolean existsById(String customerId) {
         return customerRepository.existsById(customerId);
     }
-
+    public Boolean existsByEmail(String email) {return customerRepository.existsByEmail(email);}
     public CustomerResponse findByCustomerId(String customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(
