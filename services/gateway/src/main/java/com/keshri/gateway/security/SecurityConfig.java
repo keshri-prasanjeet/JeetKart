@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestCache(requestCache)
                 )
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/", "/eureka/**", "/login", "/css/**", "/oauth2/**", "/api/v1/customers/create").permitAll()
+                        .pathMatchers("/", "/eureka/**", "/login", "/css/**", "/oauth2/**", "/api/v1/customers/create", "/api/v1/customers/exists-by-email/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling

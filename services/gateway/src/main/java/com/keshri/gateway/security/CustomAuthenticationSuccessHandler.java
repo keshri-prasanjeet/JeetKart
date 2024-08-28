@@ -25,6 +25,10 @@ public class CustomAuthenticationSuccessHandler implements ServerAuthenticationS
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
 
     private final String customerUrl;
+
+    // this would also work but it is a better practice to inject via constructor
+//    @Value("${application.config.customer-url}")
+//    private String testCustomerUrl;
     private final WebClient.Builder webClientBuilder;
     private final ServerRedirectStrategy redirectStrategy = new DefaultServerRedirectStrategy();
     private final ServerRequestCache requestCache = new WebSessionServerRequestCache();
@@ -38,7 +42,6 @@ public class CustomAuthenticationSuccessHandler implements ServerAuthenticationS
     @Override
     public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
         logger.debug("Authentication success. customerUrl = {}", customerUrl);
-
         ServerWebExchange exchange = webFilterExchange.getExchange();
 
         if (authentication instanceof OAuth2AuthenticationToken) {
@@ -63,7 +66,16 @@ public class CustomAuthenticationSuccessHandler implements ServerAuthenticationS
                                     .firstName(fullName[0])
                                     .lastName(fullName.length > 1 ? fullName[1] : "")
                                     .build();
-                            return createCustomer(webClient, customerRequest);
+                            return createCustomer(webClient, customerRequest)
+                                    .flatMap(created -> {
+                                        if(!created){
+                                            logger.warn("Customer creation did not succeed for email: {}", email);
+                                        }
+                                        return Mono.empty();
+                                    });
+                        }
+                        else{
+                            logger.info("Customer already exists for email: {}", email);
                         }
                         return Mono.empty();
                     })
@@ -86,12 +98,17 @@ public class CustomAuthenticationSuccessHandler implements ServerAuthenticationS
                 });
     }
 
-    private Mono<String> createCustomer(WebClient webClient, CustomerRequest customerRequest) {
+    private Mono<Boolean> createCustomer(WebClient webClient, CustomerRequest customerRequest) {
 
         return webClient.post()
                 .uri(customerUrl + "/create")
                 .bodyValue(customerRequest)
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(String.class)
+                .map(response -> true)
+                .onErrorResume(e -> {
+                    logger.error("Failed to create customer {}", customerRequest.getEmail(), e);
+                    return Mono.just(false);
+                });
     }
 }
