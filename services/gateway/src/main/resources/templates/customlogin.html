@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<div class="login-container">
+    <h1>Please Sign In</h1>
+    <div class="oauth-buttons">
+        <p>Login with:</p>
+        <a href="/oauth2/authorization/github">GitHub</a>
+        <a href="/oauth2/authorization/google">Google</a>
+    </div>
+</div>
+</body>
+</html>

@@ -48,6 +48,7 @@ public class ProductService {
         for(int i = 0; i < storedProducts.size(); i++) {
             var productInInventory = storedProducts.get(i);
             var productRequest = sortedRequest.get(i);
+            //add proper response for this
             if(productInInventory.getAvailableQuantity() < productRequest.quantity()){
                 throw new ProductPurchaseException("Insufficient stock for product with ID::" + productRequest.productId());
             }

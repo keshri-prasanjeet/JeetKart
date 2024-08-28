@@ -9,6 +9,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -34,27 +36,39 @@ public class ProductClient {
         if (authHeader != null && !authHeader.isEmpty()) {
             headers.set(HttpHeaders.AUTHORIZATION, authHeader);
         }
+        try{
+            // Create an HTTP entity with the request body and headers
+            HttpEntity<List<PurchaseRequest>> requestEntity = new HttpEntity<>(purchaseRequestsBody, headers);
 
-        // Create an HTTP entity with the request body and headers
-        HttpEntity<List<PurchaseRequest>> requestEntity = new HttpEntity<>(purchaseRequestsBody, headers);
+            ParameterizedTypeReference<List<PurchaseResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-        ParameterizedTypeReference<List<PurchaseResponse>> responseType = new ParameterizedTypeReference<>() {};
+            // Make the HTTP POST request to the product service
+            ResponseEntity<List<PurchaseResponse>> responseEntity = restTemplate.exchange(
+                    productUrl + "/purchase",
+                    POST,
+                    requestEntity,
+                    responseType
+            );
 
-        // Make the HTTP POST request to the product service
-        ResponseEntity<List<PurchaseResponse>> responseEntity = restTemplate.exchange(
-                productUrl + "/purchase",
-                POST,
-                requestEntity,
-                responseType
-        );
-
-        log.info("The response body is " + responseEntity.getBody());
-
-        if (responseEntity.getStatusCode().isError()) {
-            throw new BusinessException("An error occurred while processing the products purchase: " + responseEntity.getStatusCode());
+            log.info("The response body is " + responseEntity.getBody());
+            return responseEntity.getBody();
+        }
+        catch(HttpClientErrorException e){
+            log.error("Error occured when calling product service");
+            throw e;
+        }
+        catch(RestClientException e){
+            log.error("Unexpected error occurred whiel calling producct service" + e.getMessage(), e);
+            throw new BusinessException("An error occurred while processing the products purchase: " + e.getMessage());
         }
 
+
+
+//        if (responseEntity.getStatusCode().isError()) {
+//            throw new BusinessException("An error occurred while processing the products purchase: " + responseEntity.getStatusCode());
+//        }
+
         // Return the response body
-        return responseEntity.getBody();
+
     }
 }

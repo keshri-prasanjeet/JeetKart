@@ -15,7 +15,7 @@ public class CustomerController {
     @Autowired
     private final CustomerService customerService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest customerRequest) {
         return ResponseEntity.ok(customerService.createCustomer(customerRequest));
     }
@@ -38,6 +38,11 @@ public class CustomerController {
     @GetMapping("/{customer-id}")
     public ResponseEntity<CustomerResponse> findByCustomerId(@PathVariable("customer-id") String customerId) {
         return ResponseEntity.ok(customerService.findByCustomerId(customerId));
+    }
+
+    @GetMapping("/exists-by-email/{email}")
+    public ResponseEntity<Boolean> existsByEmail(@PathVariable("email") String email) {
+        return ResponseEntity.ok(customerService.existsByEmail(email));
     }
 
     @DeleteMapping("/{customer-id}")

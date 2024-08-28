@@ -33,3 +33,9 @@ spring:
 #  1.	Incoming Request: A request comes into the API Gateway on port 8222.
 #  2.	Path Matching: The gateway matches the request path against the defined predicates.
 #  3.	Service Discovery: Using Eureka, the gateway finds the appropriate service instance based on the URI and forwards the request to it.
+
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customers
+    payment-url: http://localhost:8222/api/v1/payments
+    product-url: http://localhost:8222/api/v1/products

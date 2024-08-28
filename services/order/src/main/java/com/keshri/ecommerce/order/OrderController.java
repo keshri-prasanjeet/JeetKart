@@ -1,8 +1,6 @@
 package com.keshri.ecommerce.order;
 
 import java.util.List;
-
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,8 +18,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Integer> createOrder(@RequestBody @Valid OrderRequest orderRequest, @RequestHeader HttpHeaders headers) {
-        log.info("the request is " + String.valueOf(orderRequest));
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody @Valid OrderRequest orderRequest, @RequestHeader HttpHeaders headers) {
+        log.info("the request is " + orderRequest);
         return ResponseEntity.ok(this.orderService.createOrder(orderRequest, headers));
     }
 

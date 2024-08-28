@@ -55,14 +55,8 @@ public class CustomerService {
     public Boolean existsById(String customerId) {
         return customerRepository.existsById(customerId);
     }
-
+    public Boolean existsByEmail(String email) {return customerRepository.existsByEmail(email);}
     public CustomerResponse findByCustomerId(String customerId) {
-//        Optional<Customer> customer = customerRepository.findById(customerId);
-//        if(customer.isPresent()){
-//            return customerMapper.toCustomerResponse(customer.get());
-//        }
-//        throw new CustomerNotFoundException(customerId);
-
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(
                         format("No customer found with the customer ID: %s",customerId)));

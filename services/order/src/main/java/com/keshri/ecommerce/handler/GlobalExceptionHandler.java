@@ -1,6 +1,7 @@
 package com.keshri.ecommerce.handler;
 
 import com.keshri.ecommerce.exceptions.BusinessException;
+import com.keshri.ecommerce.exceptions.CustomerNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handle(BusinessException exp) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(exp.getMsg());
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<String> handle(CustomerNotFoundException exp) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(exp.getMsg());
     }
 
