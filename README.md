@@ -1,4 +1,7 @@
-# E-Commerce Microservices Application
+# JeetKart -- E-Commerce Microservices Application
+
+![ChatGPT Image Jul 9, 2025, 08_06_43 AM](https://github.com/user-attachments/assets/e048967c-02c7-49da-a30e-7ba60ae76e78)
+
 
 This project is an advanced e-commerce application built using microservices architecture, leveraging Spring Boot 3 and Spring Cloud technologies.
 
